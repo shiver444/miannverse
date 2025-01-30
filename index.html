@@ -20,7 +20,7 @@
             overflow-x: hidden;
         }
 
-        /* Pulsating chamber effect */
+        /* Pulsating darker chamber effect */
         body::before {
             content: '';
             position: fixed;
@@ -28,23 +28,23 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, #400000, #110022, #000000);
+            background: radial-gradient(circle, #2a0000, #0b0005, #000000);
             z-index: -1;
             animation: pulseChamber 6s infinite alternate;
         }
 
         @keyframes pulseChamber {
             0% {
-                background: radial-gradient(circle, #4a0000, #15002b, #000000);
-                filter: brightness(0.4);
+                background: radial-gradient(circle, #4a0000, #15000a, #000000);
+                filter: brightness(0.35);
             }
             50% {
-                background: radial-gradient(circle, #8b0000, #30004a, #000000);
-                filter: brightness(0.7);
+                background: radial-gradient(circle, #8b0000, #280012, #000000);
+                filter: brightness(0.5);
             }
             100% {
-                background: radial-gradient(circle, #4a0000, #15002b, #000000);
-                filter: brightness(0.5);
+                background: radial-gradient(circle, #4a0000, #15000a, #000000);
+                filter: brightness(0.35);
             }
         }
 
@@ -110,22 +110,22 @@
 
         /* Previous button */
         .control-previous {
-            background-image: url('/mnt/data/previous.jpg.jpg');
+            background-image: url('https://raw.githubusercontent.com/shiver444/miannverse/main/previous.jpg.jpg');
         }
 
         /* Play/Pause button */
         .control-playpause {
-            background-image: url('/mnt/data/playpause.jpg.jpg');
+            background-image: url('https://raw.githubusercontent.com/shiver444/miannverse/main/playpause.jpg.jpg');
         }
 
         /* Next button */
         .control-next {
-            background-image: url('/mnt/data/next.jpg.jpg');
+            background-image: url('https://raw.githubusercontent.com/shiver444/miannverse/main/next.jpg.jpg');
         }
 
         /* Shuffle button */
         .control-shuffle {
-            background-image: url('/mnt/data/shuffle.jpg.jpg');
+            background-image: url('https://raw.githubusercontent.com/shiver444/miannverse/main/shuffle.jpg.jpg');
         }
 
         /* Hover effect: glowing transition */
