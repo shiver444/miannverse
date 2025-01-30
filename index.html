@@ -271,6 +271,40 @@
         </div>
     </section>
 
+     <!-- Shop button -->
+    <div style="margin-top: 40px;">
+        <button onclick="window.location.href='https://yourstorelink.com'" style="padding: 15px 30px; background-color: #ff0000; color: white; font-size: 1.2em; border: none; border-radius: 5px; cursor: pointer;">
+            Visit Our Shop
+        </button>
+    </div>
+</section>
+
+    <section id="contact" style="padding: 60px 20px;">
+    <h2>Get in Touch</h2>
+    <p>We’d love to hear from you. Fill out the form below and we’ll get back to you soon!</p>
+
+    <!-- Contact Form -->
+    <form id="contact-form" style="max-width: 400px; margin: 0 auto; text-align: left;">
+        <label for="name" style="display: block; margin-bottom: 10px;">Your Name</label>
+        <input type="text" id="name" placeholder="Enter your name" required
+            style="width: 100%; padding: 10px; margin-bottom: 15px; border: 2px solid #8b0000; border-radius: 5px; background-color: black; color: white;">
+
+        <label for="message" style="display: block; margin-bottom: 10px;">Your Message</label>
+        <textarea id="message" placeholder="Type your message" rows="5" required
+            style="width: 100%; padding: 10px; border: 2px solid #8b0000; border-radius: 5px; background-color: black; color: white;"></textarea>
+
+        <button type="button" onclick="sendMessage()"
+            style="margin-top: 15px; padding: 10px 20px; background-color: #ff0000; color: white; font-size: 1.2em; border: none; border-radius: 5px; cursor: pointer;">
+            Send Message
+        </button>
+
+        <!-- Success Notification -->
+        <p id="success-message" style="display: none; color: #00ff00; margin-top: 15px;">
+            Thank you! Your message has been sent successfully.
+        </p>
+    </form>
+</section>
+
     <script>
         const playlist = [
             { title: "MianN - My Playground, My Toys", src: "music/toys.wav" },
@@ -336,6 +370,25 @@
     details.style.display = (details.style.display === "block") ? "none" : "block";
 }
 
+function sendMessage() {
+    const name = document.getElementById('name').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const successMessage = document.getElementById('success-message');
+
+    if (name && message) {
+        // Simulate sending the message (can be connected to backend later)
+        setTimeout(() => {
+            successMessage.style.display = "block";
+        }, 500);
+
+        // Reset form
+        document.getElementById('contact-form').reset();
+    } else {
+        alert('Please fill out both fields before sending.');
+    }
+}
+
     </script>
 </body>
 </html>
+
