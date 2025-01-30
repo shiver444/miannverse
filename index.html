@@ -20,7 +20,7 @@
             overflow-x: hidden;
         }
 
-        /* Pulsating darker chamber effect */
+        /* Pulsating darker chamber effect across the whole page */
         body::before {
             content: '';
             position: fixed;
@@ -54,6 +54,14 @@
 
         h1 {
             color: #ff0000;
+            margin-top: 20px;
+        }
+
+        .logo {
+            width: 80%;
+            max-width: 400px;
+            height: auto;
+            margin: 20px auto 0;
         }
 
         /* Centered audio player and playlist */
@@ -87,6 +95,10 @@
 
         .playlist-item:hover {
             color: #ff0000;
+        }
+
+        .playlist-item.active {
+            color: #ffffff;
         }
 
         .controls {
@@ -134,6 +146,58 @@
             filter: brightness(1.5);
         }
 
+        /* Live section styling */
+        #live {
+            background-color: transparent;
+            color: #ffffff;
+            padding: 60px 20px;
+        }
+
+        #live h2 {
+            font-size: 2.5em;
+            color: #ff0000;
+            margin-bottom: 30px;
+        }
+
+        .event {
+            background-color: #8b0000;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            color: black;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .event:hover {
+            transform: scale(1.05);
+            background-color: #ff0000;
+            color: white;
+        }
+
+        .event h3 {
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .event p {
+            margin: 5px 0;
+        }
+
+        .event-details {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #ff4d4d;
+            color: black;
+            border-radius: 5px;
+        }
+
+        .event a {
+            color: #0000ff;
+            text-decoration: underline;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 600px) {
             h1 {
@@ -148,12 +212,22 @@
                 width: 50px;
                 height: 50px;
             }
+
+            .logo {
+                width: 90%;
+                max-width: 300px;
+            }
+
+            #live h2 {
+                font-size: 2em;
+            }
         }
     </style>
 </head>
 <body>
 
     <section id="radio">
+        <img class="logo" src="assets/logonew.jpg" alt="MianN Logo">
         <h1>MianNverse Radio</h1>
         <audio id="audio-player" controls></audio>
         <ul id="playlist"></ul>
@@ -162,6 +236,38 @@
             <button class="control-button control-playpause" onclick="togglePlay()"></button>
             <button class="control-button control-next" onclick="nextTrack()"></button>
             <button class="control-button control-shuffle" onclick="shuffleTracks()"></button>
+        </div>
+    </section>
+
+    <section id="live">
+        <h2>Live Events</h2>
+
+        <!-- Event cards with expandable details -->
+        <div class="event" onclick="toggleDetails(this)">
+            <h3>Berlin Underground Techno</h3>
+            <p>Date: March 15, 2025</p>
+            <p>Venue: Techno Dome, Berlin</p>
+            <div class="event-details">
+                <p>Join us for a night of intense techno vibes. <a href="#">Get tickets here</a>.</p>
+            </div>
+        </div>
+
+        <div class="event" onclick="toggleDetails(this)">
+            <h3>Amsterdam Night</h3>
+            <p>Date: March 20, 2025</p>
+            <p>Venue: Underground Vibes, Amsterdam</p>
+            <div class="event-details">
+                <p>Experience the heart of techno in Amsterdam. <a href="#">Get tickets here</a>.</p>
+            </div>
+        </div>
+
+        <div class="event" onclick="toggleDetails(this)">
+            <h3>London Electronic Beats</h3>
+            <p>Date: March 25, 2025</p>
+            <p>Venue: Electric Sound Club, London</p>
+            <div class="event-details">
+                <p>Don’t miss London’s biggest electronic music event. <a href="#">Get tickets here</a>.</p>
+            </div>
         </div>
     </section>
 
@@ -174,6 +280,7 @@
 
         let currentTrack = 0;
         const audioPlayer = document.getElementById("audio-player");
+        const playlistContainer = document.getElementById("playlist");
 
         function loadTrack(index) {
             currentTrack = index;
@@ -183,12 +290,14 @@
         }
 
         function updatePlaylistDisplay() {
-            const playlistContainer = document.getElementById("playlist");
             playlistContainer.innerHTML = '';
             playlist.forEach((track, index) => {
                 const trackItem = document.createElement("li");
                 trackItem.textContent = track.title;
                 trackItem.classList.add("playlist-item");
+                if (index === currentTrack) {
+                    trackItem.classList.add("active");
+                }
                 trackItem.onclick = () => loadTrack(index);
                 playlistContainer.appendChild(trackItem);
             });
@@ -220,6 +329,13 @@
         audioPlayer.addEventListener("ended", nextTrack);
         updatePlaylistDisplay();
         loadTrack(currentTrack);
+
+
+        function toggleDetails(eventElement) {
+    const details = eventElement.querySelector(".event-details");
+    details.style.display = (details.style.display === "block") ? "none" : "block";
+}
+
     </script>
 </body>
 </html>
