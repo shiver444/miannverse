@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrithLabs: Web3 Microapps - Livestream TV - Events</title>
+
+    <!-- Add meta description here -->
+    <meta name="description" content="Join Crithlabs, a community of next-level content creators, musicians, visual artists, brands, and businesses. Web3 microapps - livestream TV - events.">
+    <link rel="canonical" href="https://crithlabs.com/">
+
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" as="font" type="font/woff2" crossorigin>
+
+    <style>
+        body {
+            background-color: black;
+            color: #8b0000;
+            font-family: 'Creepster', cursive;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .section-glitch {
+            position: relative;
+            display: inline-block;
+            color: #8b0000;
+            cursor: pointer;
+            font-size: 2em;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .section-glitch::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #8b0000;
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.15);
+                opacity: 0.8;
+            }
+        }
+
+        #content {
+            display: none;
+            margin: 20px;
+            text-align: center;
+        }
+
+        #content-text {
+            font-size: 1.5em;
+        }
+
+        #back-button {
+            padding: 10px 20px;
+            background-color: #8b0000;
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-family: 'Creepster', cursive;
+            border-radius: 5px;
+        }
+
+        #email-box {
+            margin-top: 20px;
+            text-align: center;
+            width: 60%;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #email-input, #join-button {
+            width: calc(100% - 20px);
+            box-sizing: border-box;
+            padding: 10px;
+            font-family: 'Creepster', cursive;
+            background-color: black;
+            color: #8b0000;
+            border: 2px solid #8b0000;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        #join-button {
+            padding: 10px 20px;
+            background-color: #8b0000;
+            color: black;
+            border: 2px solid #8b0000;
+            cursor: pointer;
+            width: calc(100% - 20px);
+            box-sizing: border-box;
+            border-radius: 5px;
+            font-family: 'Creepster', cursive;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+            white-space: nowrap; /* added to keep content on one line */
+        }
+
+        /* Pop-up styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            color: #8b0000;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .popup h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-family: 'Creepster', cursive;
+        }
+
+        .popup .event-details {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .popup .event-link {
+            color: #8b0000;
+            text-decoration: underline;
+        }
+
+        .popup .close-button {
+            padding: 10px 20px;
+            background-color: #8b0000;
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-family: 'Creepster', cursive;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="visually-hidden">CrithLabs: web3 microapps - livestream TV - events.</h1>
+
+    <section id="about" class="section-glitch" data-text="About" onclick="showContent('About')">About</section>
+    <section id="tv" class="section-glitch" data-text="TV" onclick="showContent('TV')">TV</section>
+    <section id="join" class="section-glitch" data-text="Join" onclick="showContent('Join')">Join</section>
+
+    <div id="content">
+        <p id="content-text"></p>
+        <button id="back-button" onclick="hideContent()">Back</button>
+    </div>
+
+    <div id="email-box">
+        <input type="email" id="email-input" placeholder="I want your mail (placeholder)">
+        <button id="join-button">Keep me posted!</button>
+    </div>
+
+    <!-- Pop-up window for event announcement -->
+    <div id="event-popup" class="popup glow">
+        <h2>Pssst!</h2>
+        <p class="event-details">October 12: <a href="https://jen-pop.com" target="_blank" class="event-link">Jen Pop (LA)</a> + NothingOverBeer @ The Old Glassworks Ptuj, Slovenia!</p>
+        <p> <a href="https://www.facebook.com/events/747464224058464" target="_blank" class="event-link">infos and links here!</a> </p>
+        <button class="close-button" onclick="closePopup()">Close</button>
+    </div>
+
+    <style>
+    /* Glowing effect for the popup */
+    .glow {
+        animation: glow 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+        from {
+            box-shadow: 0 0 10px #8b0000;
+        }
+        to {
+            box-shadow: 0 0 20px #ff0000;
+        }
+    }
+    </style>
+
+    <script>
+        document.querySelectorAll('.section-glitch').forEach(el => {
+            const duration = Math.random() * 2 + 4; // Duration between 4 to 6 seconds
+            const delay = Math.random() * 2; // Delay up to 2 seconds
+
+            el.style.animation = `heartbeat ${duration}s infinite linear alternate-reverse`;
+            el.style.animationDelay = `${delay}s`;
+
+            const beforeEl = el.querySelector('::before');
+            if (beforeEl) {
+                beforeEl.style.animation = `heartbeat ${duration}s infinite linear alternate`;
+                beforeEl.style.animationDelay = `${delay}s`;
+            }
+        });
+
+        function showContent(section) {
+            if (section === 'About') {
+                window.location.href = 'about.html';
+            } else if (section === 'TV') {
+                window.location.href = 'tv.html';
+            } else if (section === 'Join') {
+                window.location.href = 'join.html';
+            }
+        }
+
+        function hideContent() {
+            document.getElementById('content').style.display = 'none';
+        }
+
+        // Function to close the popup
+        function closePopup() {
+            document.getElementById('event-popup').style.display = 'none';
+        }
+
+        // Function to close the promo popup
+        function closePromoPopup() {
+            document.getElementById('promo-popup').style.display = 'none';
+        }
+
+        // Function to check if the popup has been shown in the current session
+        function checkPopupShown() {
+            if (!sessionStorage.getItem('popupShown')) {
+                document.getElementById('event-popup').style.display = 'block';
+                sessionStorage.setItem('popupShown', 'true');
+            }
+        }
+
+        // Function to check if the promo popup has been shown in the current session
+        function checkPromoPopupShown() {
+            if (!sessionStorage.getItem('promoPopupShown')) {
+                document.getElementById('promo-popup').style.display = 'block';
+                sessionStorage.setItem('promoPopupShown', 'true');
+            }
+        }
+
+        // Call the function to check if the popups should be shown
+        window.onload = function() {
+            checkPopupShown();
+            checkPromoPopupShown();
+        };
+    </script>
+</body>
+</html>

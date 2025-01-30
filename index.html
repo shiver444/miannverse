@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MianNverse Radio</title>
+
+    <!-- Font for titles -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Body and basic styling */
+        body {
+            background-color: black;
+            color: #8b0000;
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Pulsating chamber effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #400000, #110022, #000000);
+            z-index: -1;
+            animation: pulseChamber 6s infinite alternate;
+        }
+
+        @keyframes pulseChamber {
+            0% {
+                background: radial-gradient(circle, #4a0000, #15002b, #000000);
+                filter: brightness(0.4);
+            }
+            50% {
+                background: radial-gradient(circle, #8b0000, #30004a, #000000);
+                filter: brightness(0.7);
+            }
+            100% {
+                background: radial-gradient(circle, #4a0000, #15002b, #000000);
+                filter: brightness(0.5);
+            }
+        }
+
+        section {
+            padding: 50px 20px;
+        }
+
+        h1 {
+            color: #ff0000;
+        }
+
+        /* Centered audio player and playlist */
+        #audio-player {
+            width: 100%;
+            max-width: 300px;
+            margin: 20px 0;
+            background-color: black;
+            color: #ff0000;
+            border: 2px solid #8b0000;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #playlist {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .playlist-item {
+            cursor: pointer;
+            padding: 8px;
+            color: #8b0000;
+            border-bottom: 1px solid #8b0000;
+            transition: color 0.3s;
+        }
+
+        .playlist-item:hover {
+            color: #ff0000;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* Custom control buttons with your images */
+        .control-button {
+            width: 60px;
+            height: 60px;
+            background-size: cover;
+            background-position: center;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s, filter 0.3s;
+            border-radius: 50%;
+        }
+
+        /* Previous button */
+        .control-previous {
+            background-image: url('/mnt/data/previous.jpg.jpg');
+        }
+
+        /* Play/Pause button */
+        .control-playpause {
+            background-image: url('/mnt/data/playpause.jpg.jpg');
+        }
+
+        /* Next button */
+        .control-next {
+            background-image: url('/mnt/data/next.jpg.jpg');
+        }
+
+        /* Shuffle button */
+        .control-shuffle {
+            background-image: url('/mnt/data/shuffle.jpg.jpg');
+        }
+
+        /* Hover effect: glowing transition */
+        .control-button:hover {
+            transform: scale(1.2);
+            filter: brightness(1.5);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            #audio-player {
+                width: 90%;
+            }
+
+            .control-button {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <section id="radio">
+        <h1>MianNverse Radio</h1>
+        <audio id="audio-player" controls></audio>
+        <ul id="playlist"></ul>
+        <div class="controls">
+            <button class="control-button control-previous" onclick="previousTrack()"></button>
+            <button class="control-button control-playpause" onclick="togglePlay()"></button>
+            <button class="control-button control-next" onclick="nextTrack()"></button>
+            <button class="control-button control-shuffle" onclick="shuffleTracks()"></button>
+        </div>
+    </section>
+
+    <script>
+        const playlist = [
+            { title: "MianN - My Playground, My Toys", src: "music/toys.wav" },
+            { title: "Hard Techno Beat", src: "music/hard_techno_beat.mp3" },
+            { title: "Seductive Synthwave", src: "music/seductive_synthwave.mp3" }
+        ];
+
+        let currentTrack = 0;
+        const audioPlayer = document.getElementById("audio-player");
+
+        function loadTrack(index) {
+            currentTrack = index;
+            audioPlayer.src = playlist[index].src;
+            audioPlayer.play();
+            updatePlaylistDisplay();
+        }
+
+        function updatePlaylistDisplay() {
+            const playlistContainer = document.getElementById("playlist");
+            playlistContainer.innerHTML = '';
+            playlist.forEach((track, index) => {
+                const trackItem = document.createElement("li");
+                trackItem.textContent = track.title;
+                trackItem.classList.add("playlist-item");
+                trackItem.onclick = () => loadTrack(index);
+                playlistContainer.appendChild(trackItem);
+            });
+        }
+
+        function togglePlay() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+            } else {
+                audioPlayer.pause();
+            }
+        }
+
+        function nextTrack() {
+            currentTrack = (currentTrack + 1) % playlist.length;
+            loadTrack(currentTrack);
+        }
+
+        function previousTrack() {
+            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+            loadTrack(currentTrack);
+        }
+
+        function shuffleTracks() {
+            audioPlayer.playbackRate = Math.random() * (1.5 - 0.8) + 0.8;
+            audioPlayer.volume = Math.random();
+        }
+
+        audioPlayer.addEventListener("ended", nextTrack);
+        updatePlaylistDisplay();
+        loadTrack(currentTrack);
+    </script>
+</body>
+</html>
